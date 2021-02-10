@@ -13,24 +13,26 @@ export class UserNewComponent implements OnInit {
 
   newUserForm: FormGroup;
   postStatus: number;
+
   faUserPlus = faUserPlus;
 
   ngOnInit() {
     this.newUserForm = new FormGroup({
       'first-name': new FormControl(null, Validators.required),
       'last-name': new FormControl(null, Validators.required),
-      'email': new FormControl(null, [Validators.required, Validators.email])
+      'email': new FormControl(null, [Validators.required, Validators.email]),
+      'avatar': new FormControl(null),
+      'id': new FormControl(null),
     });
   }
 
   onSubmit() {
-    this.usersService.addUser(this.newUserForm.value).subscribe(
+    const newUser = this.newUserForm.value;
+    this.usersService.addUser(newUser).subscribe(
       res => {
-        console.log(res);
         this.postStatus = res.status;
       },
       err => {
-        console.log(err);
         return err;
       }
     );

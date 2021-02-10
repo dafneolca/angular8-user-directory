@@ -9,7 +9,7 @@
     <li class="breadcrumb-item active" aria-current="page">Edit User</li>
   </ol>
 </nav>
-<div *ngIf="newUserForm && !postStatus" class="container">
+<div *ngIf="userForm && !postStatus" class="container">
   <div class="user-container card">
     <div class="row">
       <div class="col-xs-12 col-sm-10 col-md-4">
@@ -17,36 +17,38 @@
         <img src={{user.avatar}} alt="profile pic" class="img-responsive">
       </div>
       <div class="col-xs-12 col-sm-10 col-md-4">
-        <form [formGroup]="newUserForm" (ngSubmit)="onSubmit()">
+        <form *ngIf="userForm" [formGroup]="userForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
-            <label for="first-name">First Name</label>
-            <input type="text" id="first-name" class="form-control" formControlName="first-name" />
-            <span *ngIf="!newUserForm.get('first-name').valid && newUserForm.get('first-name').touched"
+            <label for="first_name">First Name</label>
+            <input type="text" id="first_name" class="form-control" formControlName="first_name" />
+            <span *ngIf="!userForm.get('first_name').valid && userForm.get('first_name').touched"
               class="help-block">Please enter a first name</span>
           </div>
           <div class="form-group">
-            <label for="last-name">Last Name</label>
-            <input type="text" id="last-name" class="form-control" formControlName="last-name" />
-            <span *ngIf="!newUserForm.get('last-name').valid && newUserForm.get('last-name').touched"
+            <label for="last_name">Last Name</label>
+            <input type="text" id="last_name" class="form-control" formControlName="last_name" />
+            <span *ngIf="!userForm.get('last_name').valid && userForm.get('last_name').touched"
               class="help-block">Please enter a last name</span>
           </div>
           <div class="form-group">
             <label for="email">Email</label>
             <input type="text" id="email" class="form-control" formControlName="email" />
-            <span *ngIf="!newUserForm.get('email').valid && newUserForm.get('email').touched" class="help-block">Please
+            <span *ngIf="!userForm.get('email').valid && userForm.get('email').touched" class="help-block">Please
               enter a valid email</span>
           </div>
           <button class="btn btn-outline-secondary" (click)="onCancel()">Cancel</button>
-          <button class="btn btn-complete" type="submit" [disabled]="!newUserForm.valid">Save</button>
+          <button class="btn btn-complete" type="submit" [disabled]="!userForm.valid">Save</button>
         </form>
       </div>
     </div>
   </div>
 </div>
-<div class="container">
+
+<!-- todo: add toast instead -->
+<!-- <div class="container">
   <div class="row">
     <div *ngIf="postStatus===200">
       <h3>User Successfully Updated</h3>
     </div>
   </div>
-</div>
+</div> -->

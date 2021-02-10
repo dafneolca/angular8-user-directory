@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../services/users.service';
-import { HttpClient } from '@angular/common/http';
+// import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Sort } from '@angular/material/sort';
 import { IUser } from './models/user.model';
@@ -12,6 +12,7 @@ import { faUsers, faSearch, faPlusCircle, faEdit } from '@fortawesome/free-solid
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
 })
+
 export class UsersComponent implements OnInit {
   userData: IUser[] = [];
   filteredUserData: IUser[] = [];
@@ -28,8 +29,9 @@ export class UsersComponent implements OnInit {
   faPlusCircle = faPlusCircle;
   faEdit = faEdit;
 
-  constructor(private usersService: UsersService, private router: Router, private route: ActivatedRoute, private http: HttpClient) {
-    this.userData = this.userData.slice();
+  constructor(private usersService: UsersService, private router: Router, private route: ActivatedRoute) {
+    // console.log('user data: ', this.userData)
+    // this.userData = this.userData.slice();
   }
 
   ngOnInit() {

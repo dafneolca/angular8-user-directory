@@ -51,7 +51,7 @@ export class UserDetailsComponent implements OnInit {
   deleteUser() {
     this.deleting = true;
     console.log('[deleting] ', this.user);
-    this.usersService.deleteUser(this.user['id']).subscribe(
+    this.usersService.deleteUser(this.userID).subscribe(
       res => {
         console.log(res);
         this.postStatus = res.status;

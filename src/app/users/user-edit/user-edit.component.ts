@@ -15,7 +15,7 @@ export class UserEditComponent implements OnInit {
   userID: number;
   user: IUser;
 
-  newUserForm: FormGroup;
+  userForm: FormGroup;
   postStatus: number;
 
   faEdit = faEdit;
@@ -27,20 +27,20 @@ export class UserEditComponent implements OnInit {
     if (this.userID) {
       this.getData();
     }
-    setTimeout(() => {
-      this.newUserForm = new FormGroup({
-        'first-name': new FormControl(this.user.first_name, Validators.required),
-        'last-name': new FormControl(this.user.last_name, Validators.required),
-        'email': new FormControl(this.user.email, [Validators.required, Validators.email])
-      });
-    }, 1000);
   }
 
   getData() {
     this.usersService.getUser(this.userID).subscribe(
       res => {
-        console.log(res);
         this.user = res['data'];
+        this.userForm = new FormGroup({
+          'first_name': new FormControl(this.user.first_name, Validators.required),
+          'last_name': new FormControl(this.user.last_name, Validators.required),
+          'email': new FormControl(this.user.email, [Validators.required, Validators.email]),
+          'avatar': new FormControl(this.user.avatar),
+          'id': new FormControl(this.user.id),
+        });
+
       },
       err => {
         console.log(err);
@@ -50,12 +50,11 @@ export class UserEditComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('save');
-    this.usersService.updateUser(this.user).subscribe(
+    const updatedUser = this.userForm.value;
+    this.usersService.updateUser(updatedUser).subscribe(
       res => {
-        console.log(res);
         this.postStatus = res.status;
-        console.log(this.postStatus);
+        console.log('post status: ', this.postStatus);
         setTimeout(() => {
           this.router.navigate(['users']);
         }, 1000);
