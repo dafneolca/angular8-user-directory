@@ -5,6 +5,8 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { IUser } from '../models/user.model';
 import { faTrashAlt, faEnvelope, faPhone, faUserAlt } from '@fortawesome/free-solid-svg-icons';
 
+import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'app-user-details',
   templateUrl: './user-details.component.html',
@@ -13,15 +15,14 @@ import { faTrashAlt, faEnvelope, faPhone, faUserAlt } from '@fortawesome/free-so
 export class UserDetailsComponent implements OnInit {
   userID: number;
   user: IUser;
-  deleting: boolean = false;
-  postStatus: number;
   modalRef: BsModalRef;
   faTrashAlt = faTrashAlt;
   faEnvelope = faEnvelope;
   faPhone = faPhone;
   faUserAlt = faUserAlt;
 
-  constructor(private route: ActivatedRoute, private router: Router, private usersService: UsersService, private modalService: BsModalService) {}
+  constructor(private route: ActivatedRoute, private router: Router, private usersService: UsersService,
+    private modalService: BsModalService, private toastr: ToastrService) {}
 
   ngOnInit() {
     this.userID = this.route.snapshot.params['id'];
@@ -37,6 +38,7 @@ export class UserDetailsComponent implements OnInit {
       },
       err => {
         if (err.status === 404) {
+          this.toastr.error('This user does not exist', 'Error');
           this.router.navigate(['not-found']);
         }
         return err;
@@ -49,19 +51,18 @@ export class UserDetailsComponent implements OnInit {
   }
 
   deleteUser() {
-    this.deleting = true;
     console.log('[deleting] ', this.user);
+    this.modalRef.hide();
     this.usersService.deleteUser(this.userID).subscribe(
       res => {
         console.log(res);
-        this.postStatus = res.status;
+        this.toastr.success('User has been deleted', 'Success');
         setTimeout(() => {
           this.router.navigate(['users']);
-          this.modalRef.hide();
         }, 1000);
       },
       err => {
-        console.log(err);
+        this.toastr.error('This user could not be deleted', 'Error');
         return err;
       }
     );

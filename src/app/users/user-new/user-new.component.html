@@ -11,9 +11,9 @@
 </nav>
 <div class="container">
   <div class="row">
-    <div class="col-xs-12 col-sm-10 col-md-4 user-container card" *ngIf="!postStatus">
+    <div class="col-xs-12 col-sm-10 col-md-4 user-container card">
       <h1>Add New User</h1>
-      <form [formGroup]="newUserForm" (ngSubmit)="onSubmit()" *ngIf="!postStatus">
+      <form [formGroup]="newUserForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
           <label for="first-name">First Name</label>
           <input type="text" id="first-name" class="form-control" formControlName="first-name" />
@@ -35,10 +35,6 @@
         <button class="btn btn-complete" type="submit" [disabled]="!newUserForm.valid">Submit</button>
         <button class="btn btn-outline-secondary" routerLink="/users">Cancel</button>
       </form>
-    </div>
-    <div *ngIf="postStatus===201">
-      <h1>User Successfully Submitted!</h1>
-      <a routerLink="/users">Back to users</a>
     </div>
   </div>
 </div>

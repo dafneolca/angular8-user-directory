@@ -22,6 +22,7 @@ import { QuillModule } from 'ngx-quill';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { ToastrModule } from 'ngx-toastr';
 
 import { UsersComponent } from './users/users.component';
 
@@ -72,7 +73,8 @@ export class AppHammerConfig extends HammerGestureConfig {
     NgxPaginationModule,
     MatSortModule,
     ReactiveFormsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     {

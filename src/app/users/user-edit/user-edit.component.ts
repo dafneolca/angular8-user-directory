@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UsersService } from '../../services/users.service';
-import { BsModalService } from 'ngx-bootstrap/modal';
 import { IUser } from '../models/user.model';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
+
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-edit',
@@ -20,7 +21,7 @@ export class UserEditComponent implements OnInit {
 
   faEdit = faEdit;
 
-  constructor(private route: ActivatedRoute, private router: Router, private usersService: UsersService, private modalService: BsModalService) {}
+  constructor(private route: ActivatedRoute, private router: Router, private usersService: UsersService, private toastr: ToastrService) {}
 
   ngOnInit() {
     this.userID = this.route.snapshot.params['id'];
@@ -55,12 +56,14 @@ export class UserEditComponent implements OnInit {
       res => {
         this.postStatus = res.status;
         console.log('post status: ', this.postStatus);
+        this.toastr.success('User has been updated', 'Success');
         setTimeout(() => {
           this.router.navigate(['users']);
         }, 1000);
       },
       err => {
         console.log(err);
+        this.toastr.error('This user could not be added', 'Error');
         return err;
       }
     );

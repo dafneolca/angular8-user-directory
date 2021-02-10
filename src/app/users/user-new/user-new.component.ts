@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { UsersService } from '../../services/users.service';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
+
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-new',
@@ -9,7 +12,7 @@ import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./user-new.component.scss']
 })
 export class UserNewComponent implements OnInit {
-  constructor(private usersService: UsersService) {}
+  constructor(private usersService: UsersService, private router: Router, private toastr: ToastrService) {}
 
   newUserForm: FormGroup;
   postStatus: number;
@@ -30,9 +33,14 @@ export class UserNewComponent implements OnInit {
     const newUser = this.newUserForm.value;
     this.usersService.addUser(newUser).subscribe(
       res => {
+        this.toastr.success('User has been added', 'Success');
+        setTimeout(() => {
+          this.router.navigate(['users']);
+        }, 1000);
         this.postStatus = res.status;
       },
       err => {
+        this.toastr.error('This user could not be added', 'Error');
         return err;
       }
     );
